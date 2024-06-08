@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Identity;
+using Task_Manager.DataAccess;
+using Task_Manager.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Task_Manager
 {
@@ -8,11 +12,13 @@ namespace Task_Manager
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddLogging();
 
             var app = builder.Build();
 
