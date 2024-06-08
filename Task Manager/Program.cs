@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Task_Manager.DataAccess;
 using Task_Manager.Data;
+using Task_Manager.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Task_Manager
@@ -19,6 +20,7 @@ namespace Task_Manager
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddLogging();
+            builder.Services.AddScoped<EmailService>();
 
             var app = builder.Build();
 
